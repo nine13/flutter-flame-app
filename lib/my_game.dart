@@ -1,3 +1,4 @@
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,10 @@ class MyGame extends FlameGame with PanDetector {
 
   @override
   void onPanStart(DragStartInfo info) {
-    moving = player.collide(info.raw.globalPosition.dx, info.raw.globalPosition.dy);
+
+    var screenPos = Vector2(info.raw.globalPosition.dx, info.raw.globalPosition.dy);
+    var worldPos = camera.screenToWorld(screenPos);
+    moving = player.collide(worldPos.x, worldPos.y);
   }
 
   @override
