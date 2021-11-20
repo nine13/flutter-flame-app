@@ -75,16 +75,22 @@ class GreenBalloon extends Balloon {
   }
 }
 
+enum BalloonState {
+  paused,   // not moving and not tappable
+  enabled,  // moving and tappable
+  disabled, // moving and not tappable
+  dying     // RIP
+}
+
 class Balloon extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame>, Tappable {
   var dy = 150.0;
-  bool isMoving = false;
+  BalloonState balloonState = BalloonState.disabled;
 
   Balloon(double x, double y, double scale, bool moving) : super(animations: <dynamic, SpriteAnimation>{}) {
     width = 137 * scale;
     height = 162 * scale;
     this.x = x;
     this.y = y;
-    isMoving = moving;
   }
 
   @override
@@ -96,37 +102,57 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame>, 
   void update(double dt) {
     super.update(dt);
 
-    if (y - height/2 > gameRef.size.y) {
-      die();
-      dy = 250.0;
-    }
+    switch (balloonState) {
+      case BalloonState.paused: break; // no movement
+      case BalloonState.dying:
+        if(y > gameRef.size.y) {
+          die();
+        }
+        if (animation!.done()) {
+          y += dy*dt;
+          dy += 40;
+        }
+        break;
+      default: 
+        if(y + height/2 < 0) {
+          gameRef.lose();
+          die();
+        }
 
-    if (isMoving && current == "alive") {
-      y -= dy*dt;
+        y -= dy*dt;
+        break;
     }
+  }
 
-    if (current == "popping") {
-      if (animation!.done()) {
-        y += dy*dt;
-        dy += 40;
-      }
-    }
+  void pause() {
+    balloonState = BalloonState.paused;
+  }
+
+  void enable() {
+    balloonState = BalloonState.enabled;
+  }
+
+  void disable() {
+    balloonState = BalloonState.disabled;
   }
 
   @override
   bool onTapDown(TapDownInfo info) {
-    pop();
+    if(balloonState == BalloonState.enabled) {
+      pop();
+    }
     return true;
   }
 
   void die() {
     gameRef.balloons.remove(this);
-    shouldRemove = true;
+    gameRef.remove(this);
   }
 
   void pop() {
     width = 137;
     height = 162;
     current = "popping";
+    balloonState = BalloonState.dying;
   }
 }

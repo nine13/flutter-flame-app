@@ -32,13 +32,12 @@ class Cat extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame> {
 
     if (y + height < 0) {
       die();
-      gameRef.reset();
     }
 
     y += dy*dt;
   }
 
   void die() {
-    shouldRemove = true;
+    gameRef.remove(this);
   }
 }
