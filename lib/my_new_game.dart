@@ -161,7 +161,7 @@ class MyNewGame extends FlameGame with HasTappableComponents {
 
   void disableBalloons() {
     for(var balloon in balloons) {
-      (balloon as Balloon).disable();
+        (balloon as Balloon).disable();
     }
   }
 

@@ -125,15 +125,21 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame>, 
   }
 
   void pause() {
-    balloonState = BalloonState.paused;
+    if(balloonState != BalloonState.dying) {
+      balloonState = BalloonState.paused;
+    }
   }
 
   void enable() {
-    balloonState = BalloonState.enabled;
+    if(balloonState != BalloonState.dying) {
+      balloonState = BalloonState.enabled;
+    }
   }
 
   void disable() {
-    balloonState = BalloonState.disabled;
+    if(balloonState != BalloonState.dying) {
+      balloonState = BalloonState.disabled;
+    }
   }
 
   @override
