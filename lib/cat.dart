@@ -1,8 +1,10 @@
+import 'package:app/game_manager.dart';
 import 'package:flame/components.dart';
+import 'package:flame/layers.dart';
 
 import 'my_new_game.dart';
 
-class Cat extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame> {
+class Cat extends SpriteAnimationGroupComponent with HasGameRef<GameManager> {
   var dy = -150.0;
 
   Cat(double x, double y) : super(animations: <dynamic, SpriteAnimation>{}) {

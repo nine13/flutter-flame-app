@@ -1,9 +1,11 @@
+import 'package:app/balloon_game_layer.dart';
+import 'package:app/game_manager.dart';
 import 'package:app/my_new_game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 
 class BlueBalloon extends Balloon {
-  BlueBalloon(double x, double y, double scale, bool moving) : super(x, y, scale, moving);
+  BlueBalloon(double x, double y, double scale, double moving) : super(x, y, scale, moving);
 
   @override
   Future<void> onLoad() async {
@@ -21,13 +23,13 @@ class BlueBalloon extends Balloon {
 
     animations["popping"] = poppingAnimation;
 
-    anchor = Anchor.center;
+    anchor = Anchor.topCenter;
     current = "alive";
   }
 }
 
 class YellowBalloon extends Balloon {
-  YellowBalloon(double x, double y, double scale, bool moving) : super(x, y, scale, moving);
+  YellowBalloon(double x, double y, double scale, double moving) : super(x, y, scale, moving);
 
   @override
   Future<void> onLoad() async {
@@ -45,14 +47,14 @@ class YellowBalloon extends Balloon {
 
     animations["popping"] = poppingAnimation;
 
-    anchor = Anchor.center;
+    anchor = Anchor.topCenter;
     current = "alive";
   }
 }
 
 
 class GreenBalloon extends Balloon {
-  GreenBalloon(double x, double y, double scale, bool moving) : super(x, y, scale, moving);
+  GreenBalloon(double x, double y, double scale, double moving) : super(x, y, scale, moving);
 
   @override
   Future<void> onLoad() async {
@@ -70,7 +72,7 @@ class GreenBalloon extends Balloon {
 
     animations["popping"] = poppingAnimation;
 
-    anchor = Anchor.center;
+    anchor = Anchor.topCenter;
     current = "alive";
   }
 }
@@ -82,15 +84,20 @@ enum BalloonState {
   dying     // RIP
 }
 
-class Balloon extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame>, Tappable {
-  var dy = 150.0;
+class Balloon extends SpriteAnimationGroupComponent with HasGameRef<GameManager>, Tappable {
+  var spriteScale = 1.0;
+  var dy = 0.0;
+
   BalloonState balloonState = BalloonState.disabled;
 
-  Balloon(double x, double y, double scale, bool moving) : super(animations: <dynamic, SpriteAnimation>{}) {
-    width = 137 * scale;
-    height = 162 * scale;
+  Balloon(double x, double y, double scale, double dy) : super(animations: <dynamic, SpriteAnimation>{}) {
+    width = 137;
+    height = 162;
+    spriteScale = scale;
+    this.scale = Vector2(spriteScale, spriteScale);
     this.x = x;
     this.y = y;
+    this.dy = dy;
   }
 
   @override
@@ -109,13 +116,14 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame>, 
           die();
         }
         if (animation!.done()) {
+          scale = Vector2(spriteScale, spriteScale);
           y += dy*dt;
           dy += 40;
         }
         break;
       default: 
         if(y + height/2 < 0) {
-          gameRef.lose();
+          gameRef.miniGameLayer.lose();
           die();
         }
 
@@ -151,13 +159,12 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<MyNewGame>, 
   }
 
   void die() {
-    gameRef.balloons.remove(this);
+    (gameRef.miniGameLayer as BalloonGameLayer).balloons.remove(this);
     gameRef.remove(this);
   }
 
   void pop() {
-    width = 137;
-    height = 162;
+    scale = Vector2(1.0, 1.0);
     current = "popping";
     balloonState = BalloonState.dying;
   }

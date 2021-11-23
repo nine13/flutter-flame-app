@@ -112,13 +112,13 @@ class MyNewGame extends FlameGame with HasTappableComponents {
     }
     var type = rand.nextInt(3);
 
-    bool moving;
+    double moving;
 
     if(rand.nextInt(2) == 0) {
       yPos = size.y;
-      moving = true;
+      moving = 150.0;
     } else {
-      moving = false;
+      moving = 0.0;
     }
 
     Balloon bal;

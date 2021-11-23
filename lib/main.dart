@@ -1,3 +1,4 @@
+import 'package:app/game_manager.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -11,15 +12,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  MyNewGame? _game;
+  // MyNewGame? _game;
+  GameManager? _gm;
 
   @override
   Widget build(BuildContext context) {
     
-    if (_game != null) {
+    if (_gm != null) {
       return Stack(
         children: [
-          GameWidget(game: MyNewGame()),
+          GameWidget(game: GameManager()),
         ],
       );
     }
@@ -34,7 +36,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.white,
               onPressed: () {
                 setState(() {
-                  _game = MyNewGame();
+                  _gm = GameManager();
                 });
               })
         ],
