@@ -2,8 +2,6 @@ import 'package:app/game_manager.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import 'my_new_game.dart';
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 

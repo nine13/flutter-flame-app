@@ -21,6 +21,8 @@ class GameManager extends FlameGame with HasTappableComponents {
 
   late PreRenderedLayer backgroundLayer;
   late MiniGameLayer miniGameLayer;
+
+  // may not need this - maybe just a background sprite?
   late DynamicLayer mainScreenLayer;
 
   GameManager() {
@@ -37,12 +39,7 @@ class GameManager extends FlameGame with HasTappableComponents {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-    // miniGameLayer = BalloonGameLayer(this);    
-
-    // miniGameLayer.init();
-    // startNewMiniGameTimer.start();
-  }
+   }
 
   void chooseMiniGame() {
     miniGameLayer = BalloonGameLayer(this);

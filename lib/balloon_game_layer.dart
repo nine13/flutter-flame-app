@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:app/game_manager.dart';
 import 'package:app/mini_game_layer.dart';
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'balloon.dart';
 import 'cat.dart';
@@ -15,6 +17,7 @@ class BalloonGameLayer extends MiniGameLayer {
   BalloonGameLayer(this.gm);
 
   var balloons = <SpriteAnimationGroupComponent>{};
+  var popCandidates = <SpriteAnimationGroupComponent>{};
 
   SpriteComponent background = SpriteComponent();
 
@@ -22,7 +25,7 @@ class BalloonGameLayer extends MiniGameLayer {
   Timer startMessageTimer = Timer(1);
 
   SpriteComponent lostMessage = SpriteComponent(priority: 100);
-  Timer lostMessageTimer = Timer(2);
+  Timer lostMessageTimer = Timer(4.5);
 
   SpriteComponent winMessage = SpriteComponent(priority: 100);
   Timer winMessageTimer = Timer(4.5);
@@ -58,6 +61,7 @@ class BalloonGameLayer extends MiniGameLayer {
 
   @override
   void update(double dt) {
+
     switch (gameState) {
       case GameState.startMessage:
         startMessageTimer.update(dt);
@@ -68,6 +72,19 @@ class BalloonGameLayer extends MiniGameLayer {
         }
         break;
       case GameState.playing:
+        if(popCandidates.isNotEmpty) {
+          Balloon bal = (popCandidates.elementAt(0) as Balloon);
+
+          for(var popCandidate in popCandidates) {
+            if (popCandidate.priority > bal.priority) {
+              bal = (popCandidate as Balloon);
+            }
+          }
+
+          popCandidates.clear();
+          bal.pop();
+
+        }
         if(balloons.isEmpty) {
           gm.add(Cat(gm.size.x/2, gm.size.y));
           gm.add(winMessage);
@@ -94,12 +111,15 @@ class BalloonGameLayer extends MiniGameLayer {
     }
   }
 
-  void generateBalloon() {
+  void generateBalloon(int priority) {
 
     Random rand = Random();
 
-    var xPos = (rand.nextInt(4) + 1) * gm.size.x/5;
-    var yPos = (rand.nextInt(4) + 1) * gm.size.y/5;
+    var safeWidth = gm.size.x - 50;
+    var safeHeight = gm.size.y - 75;
+
+    var xPos = (rand.nextInt(8) * safeWidth/9) + 65;
+    var yPos = rand.nextInt(8) * safeHeight/9;
 
     var scale = rand.nextDouble();
     if (scale < 0.5) {
@@ -119,11 +139,11 @@ class BalloonGameLayer extends MiniGameLayer {
     Balloon bal;
 
     if(type == 0) {
-      bal = GreenBalloon(xPos, yPos, scale, moving);
+      bal = GreenBalloon(xPos, yPos, scale, moving, priority);
     } else if(type == 1) {
-      bal = YellowBalloon(xPos, yPos, scale, moving);
+      bal = YellowBalloon(xPos, yPos, scale, moving, priority);
     } else {
-      bal = BlueBalloon(xPos, yPos, scale, moving);
+      bal = BlueBalloon(xPos, yPos, scale, moving, priority);
     }
 
     balloons.add(bal);
@@ -145,6 +165,7 @@ class BalloonGameLayer extends MiniGameLayer {
   void lose() {
     if(gameState == GameState.playing) {
       disableBalloons();
+      makeBalloonsCry();
       gm.add(lostMessage);
       lostMessageTimer.start();
       gameState = GameState.lostMessage;
@@ -154,6 +175,12 @@ class BalloonGameLayer extends MiniGameLayer {
   @override
   void die() {
     gm.gameManagerState = GameManagerState.chooseMiniGame;
+  }
+
+  void makeBalloonsCry() {
+    for (var balloon in balloons) {
+      (balloon as Balloon).cry();
+    }
   }
 
   void killBalloons() {
@@ -184,7 +211,7 @@ class BalloonGameLayer extends MiniGameLayer {
   void reset() {
 
     for (int i = 0; i < 5; i++) {
-      generateBalloon();
+      generateBalloon(i);
     }
     pauseBalloons();
 

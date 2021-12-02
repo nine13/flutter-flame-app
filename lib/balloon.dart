@@ -1,11 +1,10 @@
 import 'package:app/balloon_game_layer.dart';
 import 'package:app/game_manager.dart';
-import 'package:app/my_new_game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 
 class BlueBalloon extends Balloon {
-  BlueBalloon(double x, double y, double scale, double moving) : super(x, y, scale, moving);
+  BlueBalloon(double x, double y, double scale, double moving, int _priority) : super(x, y, scale, moving, _priority);
 
   @override
   Future<void> onLoad() async {
@@ -23,29 +22,41 @@ class BlueBalloon extends Balloon {
 
     animations["popping"] = poppingAnimation;
 
+    var sadAniData = SpriteAnimationData.sequenced(
+      amount: 2, stepTime: 0.2, textureSize: Vector2(137, 162), texturePosition: Vector2(411, 0));
+    var sadAnimation = await gameRef.loadSpriteAnimation('balloons.png', sadAniData);
+
+    animations["sad"] = sadAnimation;
+
     anchor = Anchor.topCenter;
     current = "alive";
   }
 }
 
 class YellowBalloon extends Balloon {
-  YellowBalloon(double x, double y, double scale, double moving) : super(x, y, scale, moving);
+  YellowBalloon(double x, double y, double scale, double moving, int _priority) : super(x, y, scale, moving, _priority);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     var aliveAniData = SpriteAnimationData.sequenced(
-      amount: 1, stepTime: 0.15, textureSize: Vector2(137, 162), texturePosition: Vector2(411, 0));
+      amount: 1, stepTime: 0.15, textureSize: Vector2(137, 162), texturePosition: Vector2(0, 162));
     var aliveAnimation = await gameRef.loadSpriteAnimation('balloons.png', aliveAniData);
 
     animations["alive"] = aliveAnimation;
 
     var poppingAniData = SpriteAnimationData.sequenced(
-      amount: 3, stepTime: 0.1, textureSize: Vector2(137, 162), texturePosition: Vector2(411, 0), loop: false);
+      amount: 3, stepTime: 0.1, textureSize: Vector2(137, 162), texturePosition: Vector2(0, 162), loop: false);
     var poppingAnimation = await gameRef.loadSpriteAnimation('balloons.png', poppingAniData);
 
     animations["popping"] = poppingAnimation;
+
+    var sadAniData = SpriteAnimationData.sequenced(
+      amount: 2, stepTime: 0.2, textureSize: Vector2(137, 162), texturePosition: Vector2(411, 162));
+    var sadAnimation = await gameRef.loadSpriteAnimation('balloons.png', sadAniData);
+
+    animations["sad"] = sadAnimation;
 
     anchor = Anchor.topCenter;
     current = "alive";
@@ -54,23 +65,29 @@ class YellowBalloon extends Balloon {
 
 
 class GreenBalloon extends Balloon {
-  GreenBalloon(double x, double y, double scale, double moving) : super(x, y, scale, moving);
+  GreenBalloon(double x, double y, double scale, double moving, int _priority) : super(x, y, scale, moving, _priority);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     var aliveAniData = SpriteAnimationData.sequenced(
-      amount: 1, stepTime: 0.15, textureSize: Vector2(137, 162), texturePosition: Vector2(822, 0));
+      amount: 1, stepTime: 0.15, textureSize: Vector2(137, 162), texturePosition: Vector2(0, 324));
     var aliveAnimation = await gameRef.loadSpriteAnimation('balloons.png', aliveAniData);
 
     animations["alive"] = aliveAnimation;
 
     var poppingAniData = SpriteAnimationData.sequenced(
-      amount: 3, stepTime: 0.1, textureSize: Vector2(137, 162), texturePosition: Vector2(822, 0), loop: false);
+      amount: 3, stepTime: 0.1, textureSize: Vector2(137, 162), texturePosition: Vector2(0, 324), loop: false);
     var poppingAnimation = await gameRef.loadSpriteAnimation('balloons.png', poppingAniData);
 
     animations["popping"] = poppingAnimation;
+
+    var sadAniData = SpriteAnimationData.sequenced(
+      amount: 2, stepTime: 0.2, textureSize: Vector2(137, 162), texturePosition: Vector2(411, 324));
+    var sadAnimation = await gameRef.loadSpriteAnimation('balloons.png', sadAniData);
+
+    animations["sad"] = sadAnimation;
 
     anchor = Anchor.topCenter;
     current = "alive";
@@ -90,7 +107,7 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<GameManager>
 
   BalloonState balloonState = BalloonState.disabled;
 
-  Balloon(double x, double y, double scale, double dy) : super(animations: <dynamic, SpriteAnimation>{}) {
+  Balloon(double x, double y, double scale, double dy, int _priority) : super(animations: <dynamic, SpriteAnimation>{}, priority: _priority) {
     width = 137;
     height = 162;
     spriteScale = scale;
@@ -122,13 +139,19 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<GameManager>
         }
         break;
       default: 
-        if(y + height/2 < 0) {
+        if(y + height < 0) {
           gameRef.miniGameLayer.lose();
           die();
         }
 
         y -= dy*dt;
         break;
+    }
+  }
+
+  void cry() {
+    if(balloonState != BalloonState.dying) {
+      current = "sad";
     }
   }
 
@@ -153,7 +176,13 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<GameManager>
   @override
   bool onTapDown(TapDownInfo info) {
     if(balloonState == BalloonState.enabled) {
-      pop();
+      
+      var balloonGame = (gameRef.miniGameLayer as BalloonGameLayer);
+      if (!balloonGame.popCandidates.contains(this)) {
+      
+        balloonGame.popCandidates.add(this);
+      }
+      // pop();
     }
     return true;
   }

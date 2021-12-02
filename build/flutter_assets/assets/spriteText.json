@@ -1,0 +1,6 @@
+{
+    "numSprites" : 1,
+    "sprites" : [
+        { "char" : "a", "width" : 22 }
+    ]
+}
