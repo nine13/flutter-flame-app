@@ -10,16 +10,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // MyNewGame? _game;
+
+  void gameOver() { 
+    setState(() {
+      _gm = null;
+    });
+  }
+
   GameManager? _gm;
 
   @override
   Widget build(BuildContext context) {
     
-    if (_gm != null) {
+  if (_gm != null) {
       return Stack(
         children: [
-          GameWidget(game: GameManager()),
+          GameWidget(
+            game: GameManager(gameOver),
+          ),
         ],
       );
     }
@@ -34,7 +42,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.white,
               onPressed: () {
                 setState(() {
-                  _gm = GameManager();
+                  _gm = GameManager(gameOver);
                 });
               })
         ],

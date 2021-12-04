@@ -1,5 +1,3 @@
-// import 'package:app/game_manager.dart';
-// import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame/layers.dart';
 
@@ -26,4 +24,6 @@ class MiniGameLayer extends DynamicLayer {
   void lose() { /* should be overridden */}
 
   void die() { /* should be overridden */ }
+
+  void start() { /* should be overridden */ }
 }

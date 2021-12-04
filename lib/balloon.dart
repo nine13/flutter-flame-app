@@ -139,10 +139,10 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<GameManager>
         }
         break;
       default: 
-        if(y + height < 0) {
+        /*if(y + height < 0) {
           gameRef.miniGameLayer.lose();
           die();
-        }
+        }*/
 
         y -= dy*dt;
         break;
@@ -188,7 +188,7 @@ class Balloon extends SpriteAnimationGroupComponent with HasGameRef<GameManager>
   }
 
   void die() {
-    (gameRef.miniGameLayer as BalloonGameLayer).balloons.remove(this);
+    (gameRef.miniGameLayer as BalloonGameLayer).dyingBalloons.remove(this);
     gameRef.remove(this);
   }
 

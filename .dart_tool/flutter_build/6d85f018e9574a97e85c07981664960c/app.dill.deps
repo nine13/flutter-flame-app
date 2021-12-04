@@ -6,7 +6,6 @@ file:///Users/hubbell13/Projects/app/lib/cat.dart
 file:///Users/hubbell13/Projects/app/lib/game_manager.dart
 file:///Users/hubbell13/Projects/app/lib/main.dart
 file:///Users/hubbell13/Projects/app/lib/mini_game_layer.dart
-file:///Users/hubbell13/Projects/app/lib/my_new_game.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib/characters.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib/src/characters.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0/lib/src/characters_impl.dart
@@ -38,6 +37,7 @@ file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/coll
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib/src/utils.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib/src/wrappers.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/components.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/effects.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/extensions.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/game.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/geometry.dart
@@ -77,6 +77,15 @@ file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flam
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/components/text_box_component.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/components/text_component.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/device.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/color_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/combined_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/effects.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/move_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/opacity_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/rotate_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/scale_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/sequence_effect.dart
+file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/effects/size_effect.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/extensions/canvas.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/extensions/color.dart
 file:///Users/hubbell13/Projects/flutter/.pub-cache/hosted/pub.dartlang.org/flame-1.0.0-releasecandidate.16/lib/src/extensions/image.dart
